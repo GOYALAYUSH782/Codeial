@@ -1,9 +1,14 @@
 const express = require('express');
+const cookieParser = require('cookie-parser');
 const app=express();
 const port = 8000;
 const expresslayouts=require('express-ejs-layouts');
 const db=require('./config/mongoose');
 //const path = require('path');
+
+app.use(express.urlencoded());
+
+app.use(cookieParser());
 
 app.use(expresslayouts);
 app.set('layout extractStyles',true);
