@@ -38,6 +38,11 @@ module.exports.createUser=(req,res)=>{
         }
     })
 }
+
+module.exports.createSession= (req,res)=>{
+    return res.redirect('/');
+};
+
 module.exports.comment=(req,res)=>{
     return res.send('<h1>Comment section</h1>');
 }
