@@ -8,7 +8,7 @@ passport.use(new LocalStrategy({
         usernameField:'email'
     },
     (email,password,done)=>{
-        user.findById({email:email},(err,user)=>{
+        user.findOne({email:email},(err,user)=>{
             if(err){console.log('Error in finding the user ----> Passport'); return done(err);}
 
             if(!user||user.password!=password){
@@ -25,11 +25,25 @@ passport.serializeUser(function(user,done){
 });
 
 passport.deserializeUser(function(id,done){
-    user.findByIdfindById(id,(err,user)=>{
+    user.findById(id,(err,user)=>{
         if(err){console.log('Error in finding the user ----> Passport'); return done(err);}
 
         return done(null,user);
     })
 })
+
+passport.checkAuthentication = function(req,res,next){
+    if(req.isAuthenticated()){
+        return next();
+    }
+    return res.redirect('/users/sign-in');
+}
+
+passport.setAuthenticatedUser=(req,res,next)=>{
+    if(req.isAuthenticated()){
+        res.locals.user= req.user;
+    }
+    next();
+}
 
 module.exports=passport;
