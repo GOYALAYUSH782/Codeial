@@ -1,11 +1,11 @@
 const User=require('../models/user');
+const Post=require('../models/post');
 
-module.exports.profile = (req,res)=>{
-    return res.render('users',{
-        title:"Users",
-    });
+module.exports.profile = function(req, res){
+    return res.render('user_profile', {
+        title: 'User Profile'
+    })
 }
-
 
 module.exports.signUp = (req,res)=>{
     if(req.isAuthenticated()){

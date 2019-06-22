@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/codeial_development',);
-
+mongoose.connect('mongodb://localhost/codeial_development', {useNewUrlParser: true });
+mongoose.set('useCreateIndex', true);
 var db = mongoose.connection;
 
 db.on('error', console.error.bind(console, 'Error connecting to MongoDB:'));
