@@ -13,13 +13,14 @@ module.exports.create=async (req,res)=>{
             });
             post.comments.push(comment);
             post.save();
+            req.flash('success','Comment posted');
             return res.redirect('back');
         }
     }
     catch(er){
         if(err){
-            console.log('Error',err);
-            return;
+            req.flash('error',err);
+            return res.redirect('back');
         }
     }
     
@@ -37,21 +38,24 @@ module.exports.destroy=async (req,res)=>{
                 if((userId=req.user.id)||(comment.user==req.user.id)){
                     let post = await Post.findByIdAndUpdate(postId,{ $pull: {comments: req.params.id}});
                     comment.remove();
+                    req.flash('success','Comment deleted');
                     return res.redirect('back');
                 }
                 else{
+                    req.flash('error','Cant delete someone else comment');
                     return res.redirect('back');
                 }
             }
         }
         else{
+            req.flash('error',err);
             return res.redirect('back');
         }
     }
     catch(err){
         if(err){
-            console.log('Error',err);
-            return;
+            req.flash('error',err);
+            return res.redirect('back');
         }
     }
 }

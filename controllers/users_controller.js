@@ -12,15 +12,18 @@ module.exports.profile = function(req, res){
 module.exports.update=(req,res)=>{
         if(req.user.id==req.params.id){
             User.findByIdAndUpdate(req.user.id,req.body,(err,user)=>{
+                req.flash('success','Profile Updated');
                 return res.redirect('back');
             })
         }
         else{
+            req.flash('error','Cant update someone else profile');
             return res.status(401).send('Unauthorised');
         }
 };
 module.exports.signUp = (req,res)=>{
     if(req.isAuthenticated()){
+        req.flash('error','You are already signed in');
         return res.redirect('/users/profile');
     }
     return res.render('user_sign_up',{
@@ -30,6 +33,7 @@ module.exports.signUp = (req,res)=>{
 
 module.exports.signIn=(req,res)=>{
     if(req.isAuthenticated()){
+        req.flash('error','You are already signed in');
         return res.redirect('/users/profile');
     }
     return res.render('user_sign_in',{
@@ -39,19 +43,24 @@ module.exports.signIn=(req,res)=>{
 
 module.exports.createUser=(req,res)=>{
     if(req.body.password!=req.body.confirm_password){
+        req.flash('error','Password dosesnt match');
         return res.redirect('back');
     }
 
     User.findOne({email:req.body.email},(err,user)=>{
-        if(err){console.log('error in finding the user while signing up'); return;}
+        if(err){
+            req.flash('error',err);
+            return res.redirect('back');
+        }
         if(!user){
             User.create(req.body,(err,user)=>{
                 if(err){console.log('error in creating user while signing up'); return;}
-                
+                req.flash('success','User Created');
                 return res.redirect('/users/sign-in');
             })
         }
         else{
+            req.flash('error','email already registered');
             return res.redirect('back');
         }
     })
@@ -66,4 +75,4 @@ module.exports.destroySession= (req,res)=>{
     req.logout();
     req.flash('success','logged out sucessfully');
     return res.redirect('/users/sign-in');
-};
+};  
