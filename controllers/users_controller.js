@@ -53,7 +53,3 @@ module.exports.destroySession= (req,res)=>{
     req.logout();
     return res.redirect('/users/sign-in');
 };
-
-module.exports.comment=(req,res)=>{
-    return res.send('<h1>Comment section</h1>');
-}

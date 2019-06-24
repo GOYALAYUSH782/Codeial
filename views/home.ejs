@@ -27,10 +27,12 @@
 
 <section id="feed-posts">
     <h4>Posts</h4>
-    <form action="/posts/create" id="new-post-form" method="POST">
-        <textarea name="content" cols="30" rows="3" placeholder="Type Here..."></textarea>
-        <input type="submit" value="Post">
-    </form>
+    <% if(locals.user) {%>
+        <form action="/posts/create-post" id="new-post-form" method="POST">
+            <textarea name="content" cols="30" rows="3" placeholder="Type Here..."></textarea>
+            <input type="submit" value="Post">
+        </form>
+    <%}%>
 
     <div id="posts-list-container">
         <ul>
@@ -43,6 +45,16 @@
                     <small>
                         <%= post.user.name %>
                     </small>
+                    <div class="posts-comment">
+                        <% if(locals.user) {%>
+                            <form method="POST" action="/comments/create">
+                                <input type="text" name="content" placeholder="Type here...">
+                                <input type="hidden" name="post" value="<%= post._id %>">
+                                <button type="submit">Comment</button>
+                            </form>
+                        <%}%>
+                    </div>
+                    
                 </p>
                 
             </li>
