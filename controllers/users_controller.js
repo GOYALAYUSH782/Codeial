@@ -58,10 +58,12 @@ module.exports.createUser=(req,res)=>{
 }
 
 module.exports.createSession= (req,res)=>{
+    req.flash('success','logged in sucessfully');
     return res.redirect('/');
 };
 
 module.exports.destroySession= (req,res)=>{
     req.logout();
+    req.flash('success','logged out sucessfully');
     return res.redirect('/users/sign-in');
 };
