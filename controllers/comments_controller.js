@@ -12,7 +12,7 @@ module.exports.create=(req,res)=>{
             Comment.create({
                 content:req.body.content,
                 user:req.user._id,
-                post:req.post._id
+                post:req.body.post
             },(err,comment)=>{
                 if(err){
                     console.log('error in creating the comment');
@@ -20,7 +20,7 @@ module.exports.create=(req,res)=>{
                 }
                 post.comments.push(comment);
                 post.save();
-                return res.redirect('/back');
+                return res.redirect('back');
             });
         }
     })
