@@ -48,6 +48,14 @@
     `)
     };
 
+    // method to iterate over all post  delete button
+    let iterdel = function(){
+        var loop = $('.delete-post-button');
+        for(i of loop){
+            deletePost(i);
+        }
+    }
+
     // method to delete a post from DOM
     let deletePost = function(deleteLink){
         $(deleteLink).click(function(e){
@@ -69,4 +77,5 @@
 
 
     createPost();
+    iterdel();
 }

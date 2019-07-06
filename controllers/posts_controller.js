@@ -7,8 +7,11 @@ module.exports.Createpost= async (req,res)=>{
             content: req.body.content,
             user: req.user._id
         })
-        post=await Post.findById(post.id).populate('user','name');
-
+        //post=await Post.findById(post.id).populate('user','name','id');
+        res.locals.flash={
+            'success':req.flash('success'),
+            'error':req.flash('error'),
+        }
         if(req.xhr){
             return res.status(200).json({
                 data:{

@@ -3,9 +3,10 @@
     Codeial / Profile Page
 </h1>
 <% if(profile_user._id==locals.user.id){%>
-    <form method="POST" action="/users/update/<%= profile_user.id%>">
+    <form method="POST" enctype="multipart/form-data" action="/users/update/<%= profile_user.id%>">
         <input type="text" name="name" placeholder="<%= profile_user.name%>" value="<%= profile_user.name%>" required>
         <input type="email" name="email" placeholder="<%= profile_user.email%>" value="<%= profile_user.email%>" required>
+        <input type="file" name="avatar" placeholder="Profile Picture">
         <button type="submit">Update</button>
     </form>
 <%} else {%>
