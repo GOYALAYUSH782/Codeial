@@ -53,6 +53,14 @@ module.exports.destroy=async (req,res)=>{
                 if((userId=req.user.id)||(comment.user==req.user.id)){
                     let post = await Post.findByIdAndUpdate(postId,{ $pull: {comments: req.params.id}});
                     comment.remove();
+                    if(req.xhr){
+                        return res.send(200).json({
+                            data:{
+                                comment:comment
+                            },
+                            message:"Comment deleted"
+                        });
+                    }
                     req.flash('success','Comment deleted');
                     return res.redirect('back');
                 }

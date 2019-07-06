@@ -7,7 +7,8 @@ module.exports.Createpost= async (req,res)=>{
             content: req.body.content,
             user: req.user._id
         })
-        //post=await Post.findById(post.id).populate('user','name','id');
+        post=await Post.findById(post.id).populate('user','name');
+        await req.flash('success','Post Published!');
         res.locals.flash={
             'success':req.flash('success'),
             'error':req.flash('error'),
@@ -20,7 +21,6 @@ module.exports.Createpost= async (req,res)=>{
                 message: "Post created!"
             });
         }
-        req.flash('success','Post Published!');
         return res.redirect('back');
     }
     catch(err){

@@ -24,10 +24,10 @@
     };
     // method to create a post in DOM
     let newPostDom = function(post){
-        return $(`<li id="${ post.id}">
+        return $(`<li id="${ post._id}">
                     <p>
                         ${ post.content }
-                            <a class="delete-post-button"  href="/posts/destroy/${ post.id }">X</a>
+                            <a class="delete-post-button"  href="/posts/destroy/${ post._id }">X</a>
                         <br>
                         <small>
                         ${ post.user.name }
@@ -48,7 +48,7 @@
     `)
     };
 
-    // method to iterate over all post  delete button
+    //method to iterate over all post  delete button
     let iterdel = function(){
         var loop = $('.delete-post-button');
         for(i of loop){
@@ -65,7 +65,7 @@
                 type:'get',
                 url: $(deleteLink).prop('href'),
                 succes: function(data){
-                    $(`post-${data.data.post.id}`).remove();
+                    $(`post-${post._id}`).remove();
                 },
                 error: function(error){
                     console.log(error.resposeText);

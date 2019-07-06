@@ -16,9 +16,9 @@
                 error: function(error){
                     console.log(error.responseText);
                 }
-            })
+            });
         });
-    }
+    };
 
     let commentDom = function(comment){
          return $(`<li id="comment-${ comment.id }">
@@ -32,7 +32,29 @@
                         </p>
                     </li>
                 `);
+    };
+
+    let delComment = function(deleteLink){
+        $(deleteLink).click(function(e){
+            e.preventDefault();
+
+            $.ajax({
+                type:'get',
+                url:$(deleteLink).pror('href'),
+                succes:function(data){
+                    $(`comment-${comment.id}`).remove();
+                }
+            })
+        })
+    };
+
+    let delAll = function(){
+        let buttons = $('.delete-comment-button');
+        for(i of buttons){
+            delComment(i);
+        }
     }
 
+    delComment();
     createComment();
 }
