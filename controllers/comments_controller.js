@@ -11,7 +11,7 @@ module.exports.create=async (req,res)=>{
                 user:req.user._id,
                 post:req.body.post
             });
-
+            console.log(req.body.content);
             post.comments.push(comment);
             //  post.comment.sort('-createdAt');
             post.save();

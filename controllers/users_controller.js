@@ -2,6 +2,7 @@ const User=require('../models/user');
 const Post=require('../models/post');
 const fs=require('fs');
 const path=require('path');
+const FilePreviews = require('filepreviews');
 module.exports.profile = function(req, res){
     User.findById(req.params.id,(err,user)=>{
         return res.render('user_profile', {
@@ -35,7 +36,17 @@ module.exports.update= async (req,res)=>{
                                 fs.unlinkSync(path.join(__dirname,"..",user.avatar));
                             }
                         }
+                        
                         user.avatar=User.avatarPath+'/'+req.file.filename;
+                        // previews.generate(user.avatar, function(err, result) {
+                        //     console.log(err);
+                        //     console.log(result.id);
+                        //     console.log(result.status);
+                          
+                        //     previews.retrieve(result.id, function(err, result) {
+                        //       console.log(result);
+                        //     });
+                        // });
                     }
                     user.save();
                     return res.redirect('back');
