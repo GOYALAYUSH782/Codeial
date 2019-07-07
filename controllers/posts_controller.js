@@ -14,6 +14,7 @@ module.exports.Createpost= async (req,res)=>{
             'error':req.flash('error'),
         }
         if(req.xhr){
+            
             return res.status(200).json({
                 data:{
                     post:post,
@@ -41,6 +42,7 @@ module.exports.destroy= async (req,res)=>{
             post.remove();
             await Comment.deleteMany({post:req.params.id})
             if(req.xhr){
+                console.log('hi from controllers');
                 return res.status(200).json({
                     data:{
                         post_id:req.params.id,

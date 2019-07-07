@@ -11,14 +11,14 @@ module.exports.create=async (req,res)=>{
                 user:req.user._id,
                 post:req.body.post
             });
-            console.log(req.body.content);
+            console.log(comment);
             post.comments.push(comment);
             //  post.comment.sort('-createdAt');
             post.save();
 
-            // comment = await Comment.findById(comment.id)
-            // .populate('post')
-            // .populate('user','name');
+            comment = await Comment.findById(comment.id)
+            .populate('post')
+            .populate('user','name');
 
             if(req.xhr){
                 return res.status(200).json({

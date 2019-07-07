@@ -10,7 +10,7 @@
             </small>
             <div class="posts-comment">
                 <% if(locals.user) {%>
-                    <form method="POST" action="/comments/create">
+                    <form method="POST" id="new-comment-form" action="/comments/create">
                         <input type="text" name="content" placeholder="Type here..." required>
                         <input type="hidden" name="post" value="<%= post._id %>">
                         <button type="submit">Comment</button>
@@ -26,4 +26,4 @@
             </div>
         </p>
     </li>
-    <script src="/js/home_comments.js"></script>
+    

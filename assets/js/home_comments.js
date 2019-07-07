@@ -1,6 +1,6 @@
 {
     let createComment = function(){
-        let commentForm = $('.posts-comment');
+        let commentForm = $('#new-comment-form');
         commentForm.submit((e)=>{
             e.preventDefault();
 
@@ -12,6 +12,7 @@
                     console.log(data);
                     let newComment= commentDom(data.data.comment);
                     $("#post-comments-list>ul").prepend(newComment);
+                    delComment($('.delete-comment-button',newComment));
                 },
                 error: function(error){
                     console.log(error.responseText);
@@ -21,10 +22,11 @@
     };
 
     let commentDom = function(comment){
-         return $(`<li id="comment-${ comment.id }">
+         return $(`<li id="comment-${ comment._id }">
                         <p>
                             ${ comment.content }
-                                <a class="delete-comment-button" href="/comments/destroy/${ comment.id }">X</a>
+                            ${ comment }
+                                <a class="delete-comment-button" href="/comments/destroy/${ comment._id }">X</a>
                             <br>
                             <small>
                                 ${ comment.user.name }
@@ -40,9 +42,12 @@
 
             $.ajax({
                 type:'get',
-                url:$(deleteLink).pror('href'),
-                succes:function(data){
-                    $(`comment-${comment.id}`).remove();
+                url:$(deleteLink).prop('href'),
+                success:function(data){
+                    $(`comment-${data.data.comment._id}`).remove();
+                },
+                error:function(error){
+                    console.log(error.responseText);
                 }
             })
         })

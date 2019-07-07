@@ -64,18 +64,15 @@
             $.ajax({
                 type:'get',
                 url: $(deleteLink).prop('href'),
-                succes: function(data){
-                    $(`post-${post._id}`).remove();
+                success: function(data){
+                    $(`#post-${data.data.post_id}`).remove();
                 },
                 error: function(error){
                     console.log(error.resposeText);
                 }
             })
         })
-
-    } 
-
-
+    }
     createPost();
     iterdel();
 }
