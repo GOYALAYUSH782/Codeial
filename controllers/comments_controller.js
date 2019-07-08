@@ -1,7 +1,7 @@
 const Post = require('../models/post');
 const Comment = require('../models/comment');
 const User = require('../models/user');
-
+const commentsMailer = require('../mailers/comment_mailer');
 module.exports.create=async (req,res)=>{
     try{
         let post = await Post.findById(req.body.post);
@@ -18,7 +18,9 @@ module.exports.create=async (req,res)=>{
 
             comment = await Comment.findById(comment.id)
             .populate('post')
-            .populate('user','name');
+            .populate('user','name email');
+
+            commentsMailer.newComment(comment);
 
             if(req.xhr){
                 return res.status(200).json({
@@ -32,7 +34,7 @@ module.exports.create=async (req,res)=>{
             return res.redirect('back');
         }
     }
-    catch(er){
+    catch(err){
         if(err){
             req.flash('error',err);
             return res.redirect('back');

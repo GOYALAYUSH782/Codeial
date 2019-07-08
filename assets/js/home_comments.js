@@ -1,5 +1,4 @@
 {
-    import Noty from 'noty';
     let createComment = function(){
         let commentForm = $('#new-comment-form');
         commentForm.submit((e)=>{
@@ -10,12 +9,15 @@
                 url:'/comments/create',
                 data:commentForm.serialize(),
                 success: function(data){
-                    //console.log(data);
                     let newComment= commentDom(data.data.comment);
                     $("#post-comments-list>ul").prepend(newComment);
                     new Noty({
-                        text: data.data.message,
-                    }).show();
+                        text:"Comment Created successfully", 
+                        type: 'success', 
+                        theme: "mint", 
+                        timeout: 5000, 
+                        closeWith:['click', 'button'], 
+                        progressBar: true}).show();
                     delComment($('.delete-comment-button',newComment));
                 },
                 error: function(error){
@@ -45,15 +47,39 @@
             e.preventDefault();
 
             $.ajax({
+                // type:'get',
+                // url:$(deleteLink).prop('href'),
+                // success:function(data){
+                //     console.log(data);
+                //     console.log(data.data.comment_id);
+                //     $(`comment-${data.data.comment._id}`).remove();
+                //     new Noty({
+                //         text: data.data.message,
+                //     }).show();
+                // },
                 type:'get',
                 url:$(deleteLink).prop('href'),
                 success:function(data){
                     console.log(data);
                     console.log(data.data.comment_id);
-                    $(`comment-${data.data.comment._id}`).remove();
+                    $(`#comment-${data.data.comment_id}`).remove();
                     new Noty({
                         text: data.data.message,
                     }).show();
+                },
+                type:'get',
+                url:$(deleteLink).prop('href'),
+                success:function(data){
+                    console.log(data);
+                    console.log(data.data.comment_id);
+                    $(`#comment-${data.data.comment_id}`).remove();
+                    new Noty({
+                        text:"Comment Deleted successfully", 
+                        type: 'error', 
+                        theme: "mint", 
+                        timeout: 5000, 
+                        closeWith:['click', 'button'], 
+                        progressBar: true}).show();
                 },
                 error:function(error){
                     console.log(error.responseText);

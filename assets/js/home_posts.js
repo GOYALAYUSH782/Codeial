@@ -1,6 +1,5 @@
 {
     // method to submit from for new post using ajax
-    import Noty from 'noty';
     let createPost=()=>{
         let newPostForm = $('#new-post-form');
         newPostForm.submit((e)=>{
@@ -15,8 +14,12 @@
                     let newPost= newPostDom(data.data.post);
                     $("#posts-list-container>ul").prepend(newPost);
                     new Noty({
-                        text: data.data.message,
-                    }).show();
+                        text:"Post Created successfully", 
+                        type: 'success', 
+                        theme: "mint", 
+                        timeout: 5000, 
+                        closeWith:['click', 'button'], 
+                        progressBar: true}).show();
                     deletePost($('.delete-post-button',newPost));
                 },
                 error: (error)=>{
@@ -88,13 +91,3 @@
     createPost();
     iterdel();
 }
-
-new Noty({
-    text:"Post Deleted successfully", 
-    type: 'error', 
-    theme: "mint", 
-    timeout: 5000, 
-    closeWith:['click', 'button'], 
-    progressBar: true}).show()
-                    
-    $(`#post-${data.data.post_id}`).remove();
