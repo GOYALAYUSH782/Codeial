@@ -70,10 +70,14 @@
                 url: $(deleteLink).prop('href'),
                 success: function(data){
                     console.log(data);
-                    $(`#post-${data.data.post_id}`).remove();
                     new Noty({
-                        text: data.data.message,
-                    }).show();
+                        text:"Post Deleted successfully", 
+                        type: 'error', 
+                        theme: "mint", 
+                        timeout: 5000, 
+                        closeWith:['click', 'button'], 
+                        progressBar: true}).show();
+                    $(`#post-${data.data.post_id}`).remove();
                 },
                 error: function(error){
                     console.log(error.resposeText);
@@ -84,3 +88,13 @@
     createPost();
     iterdel();
 }
+
+new Noty({
+    text:"Post Deleted successfully", 
+    type: 'error', 
+    theme: "mint", 
+    timeout: 5000, 
+    closeWith:['click', 'button'], 
+    progressBar: true}).show()
+                    
+    $(`#post-${data.data.post_id}`).remove();
