@@ -8,7 +8,7 @@ module.exports.Createpost= async (req,res)=>{
             user: req.user._id
         })
         post=await Post.findById(post.id).populate('user','name');
-        await req.flash('success','Post Published!');
+        req.flash('success','Post Published!');
         res.locals.flash={
             'success':req.flash('success'),
             'error':req.flash('error'),
@@ -42,7 +42,6 @@ module.exports.destroy= async (req,res)=>{
             post.remove();
             await Comment.deleteMany({post:req.params.id})
             if(req.xhr){
-                console.log('hi from controllers');
                 return res.status(200).json({
                     data:{
                         post_id:req.params.id,

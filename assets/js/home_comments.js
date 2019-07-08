@@ -1,4 +1,5 @@
 {
+    import Noty from 'noty';
     let createComment = function(){
         let commentForm = $('#new-comment-form');
         commentForm.submit((e)=>{
@@ -9,15 +10,19 @@
                 url:'/comments/create',
                 data:commentForm.serialize(),
                 success: function(data){
-                    console.log(data);
+                    //console.log(data);
                     let newComment= commentDom(data.data.comment);
                     $("#post-comments-list>ul").prepend(newComment);
+                    new Noty({
+                        text: data.data.message,
+                    }).show();
                     delComment($('.delete-comment-button',newComment));
                 },
                 error: function(error){
                     console.log(error.responseText);
                 }
             });
+            
         });
     };
 
@@ -25,7 +30,6 @@
          return $(`<li id="comment-${ comment._id }">
                         <p>
                             ${ comment.content }
-                            ${ comment }
                                 <a class="delete-comment-button" href="/comments/destroy/${ comment._id }">X</a>
                             <br>
                             <small>
@@ -44,7 +48,12 @@
                 type:'get',
                 url:$(deleteLink).prop('href'),
                 success:function(data){
+                    console.log(data);
+                    console.log(data.data.comment_id);
                     $(`comment-${data.data.comment._id}`).remove();
+                    new Noty({
+                        text: data.data.message,
+                    }).show();
                 },
                 error:function(error){
                     console.log(error.responseText);

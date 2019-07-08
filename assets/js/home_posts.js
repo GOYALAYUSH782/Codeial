@@ -1,5 +1,6 @@
 {
     // method to submit from for new post using ajax
+    import Noty from 'noty';
     let createPost=()=>{
         let newPostForm = $('#new-post-form');
         newPostForm.submit((e)=>{
@@ -10,9 +11,12 @@
                 url: "/posts/create-post",
                 data: newPostForm.serialize(),
                 success: (data)=>{
-                    console.log(data);
+                    //console.log(data);
                     let newPost= newPostDom(data.data.post);
                     $("#posts-list-container>ul").prepend(newPost);
+                    new Noty({
+                        text: data.data.message,
+                    }).show();
                     deletePost($('.delete-post-button',newPost));
                 },
                 error: (error)=>{
@@ -24,7 +28,7 @@
     };
     // method to create a post in DOM
     let newPostDom = function(post){
-        return $(`<li id="${ post._id}">
+        return $(`<li id="post-${ post._id}">
                     <p>
                         ${ post.content }
                             <a class="delete-post-button"  href="/posts/destroy/${ post._id }">X</a>
@@ -65,7 +69,11 @@
                 type:'get',
                 url: $(deleteLink).prop('href'),
                 success: function(data){
+                    console.log(data);
                     $(`#post-${data.data.post_id}`).remove();
+                    new Noty({
+                        text: data.data.message,
+                    }).show();
                 },
                 error: function(error){
                     console.log(error.resposeText);
