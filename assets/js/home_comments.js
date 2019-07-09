@@ -32,7 +32,9 @@
          return $(`<li id="comment-${ comment._id }">
                         <p>
                             ${ comment.content }
-                                <a class="delete-comment-button" href="/comments/destroy/${ comment._id }">X</a>
+                        <a class="toggle-like-button" data-likes="${ 0 }" href="/likes/toggle/?id=${ comment._id }&type='Comment'">
+                            0 Likes
+                        </a>
                             <br>
                             <small>
                                 ${ comment.user.name }

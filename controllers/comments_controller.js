@@ -2,6 +2,7 @@ const Post = require('../models/post');
 const Comment = require('../models/comment');
 const User = require('../models/user');
 const commentsMailer = require('../mailers/comment_mailer');
+const Like = require('../models/like');
 module.exports.create=async (req,res)=>{
     try{
         let post = await Post.findById(req.body.post);
@@ -55,7 +56,10 @@ module.exports.destroy=async (req,res)=>{
                 if((userId=req.user.id)||(comment.user==req.user.id)){
                     let post = await Post.findByIdAndUpdate(postId,{ $pull: {comments: req.params.id}});
                     comment.remove();
-
+                    await Like.deleteMany({
+                        likeable:req.params.id,
+                        onModel: 'Comment'
+                    })
                     if(req.xhr){
                         return res.status(200).json({
                             data:{

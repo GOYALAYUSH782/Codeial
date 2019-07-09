@@ -21,6 +21,7 @@
                         closeWith:['click', 'button'], 
                         progressBar: true}).show();
                     deletePost($('.delete-post-button',newPost));
+                    newlike($('.toggle-like-button',newPost));
                 },
                 error: (error)=>{
                     console.log(error.resposeText);
@@ -38,6 +39,9 @@
                         <br>
                         <small>
                         ${ post.user.name }
+                        <a class="toggle-like-button" data-likes="${ 0 }" href="/likes/toggle/?id=${ post._id }&type='Post'">
+                            0 Likes
+                        </a>
                         </small>
                         <div class="posts-comment">
                                 <form method="POST" action="/comments/create">
@@ -88,6 +92,37 @@
             })
         })
     }
+    let newlike = function(likeLink){
+        $(likeLink).click(function(e){
+            e.preventDefault();
+
+            $.ajax({
+                type: 'post',
+                url: $(likeLink).prop('href'),
+                success:function(data){
+                    let likesCount= parseInt($(likelink).attr('data-likes'));
+                    if(data.data.deleted){
+                        likesCount=-1;
+                    }
+                    else{
+                        likesCount=+1;
+                    }
+                    $(likeLink).attr('data-likes',likesCount);
+                    $(likelink).html(`${likesCount} Likes`);
+                },
+                error: function(err){
+                    console.log(err.resposeText);
+                }
+            });
+        })
+    };
+    let iterlike= function(){
+        let likes=$('.toggle-like-button');
+        for(i of likes){
+            newlike(i);
+        }
+    }
     createPost();
     iterdel();
+    iterlike();
 }
