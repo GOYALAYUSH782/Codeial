@@ -1,9 +1,9 @@
-const nodelmailer = require('../config/nodemailer');
+const nodemailer = require('../config/nodemailer');
 // new method to export a method
 exports.newComment = (comment)=>{
-    let htmlString = modemailer.renderTemplate({comment:comment},'/comments/new_comment');
+    let htmlString = nodemailer.renderTemplate({comment:comment},'/comments/new_comment');
 
-    nodelmailer.transporter.sendMail({
+    nodemailer.transporter.sendMail({
         from:"goyalayush782@gmail.com",
         to: comment.user.email,
         subject:"New Comment Published!",
@@ -13,7 +13,7 @@ exports.newComment = (comment)=>{
             console.log('Error in sending mail',err);
             return;
         }
-        console.log('message sent',info);
+        //console.log('message sent',info);
         return;
     });
 }

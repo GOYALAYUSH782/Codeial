@@ -3,6 +3,8 @@ const Comment=require('../models/comment');
 const User=require('../models/user');
 const postsmailer = require('../mailers/post_mailer');
 const Like = require('../models/like');
+const queue = require('../config/kue');
+const postEmailWorker = require('../workers/post_email_worker');
 module.exports.Createpost= async (req,res)=>{
     try{
         let post= await Post.create({
@@ -10,9 +12,15 @@ module.exports.Createpost= async (req,res)=>{
             user: req.user._id
         })
         post=await Post.findById(post.id).populate('user','name email');
-
-        postsmailer.newPost(post);
-        
+        //console.log('inside post cintroller', post);
+        //postsmailer.newPost(post);
+        let job = queue.create('post_email',post).save((err)=>{
+            if(err){
+                console.log('Error in sendig to the queue',err);
+                return;
+            }
+            console.log('job enqueued',job.id);
+        })
         if(req.xhr){
             
             return res.status(200).json({
@@ -23,10 +31,6 @@ module.exports.Createpost= async (req,res)=>{
             });
         }
         req.flash('success','Post Published!');
-        res.locals.flash={
-            'success':req.flash('success'),
-            'error':req.flash('error'),
-        }
         return res.redirect('back');
     }
     catch(err){
@@ -45,18 +49,18 @@ module.exports.destroy= async (req,res)=>{
         let post = await Post.findById(req.params.id);
         if(post.user==req.user.id){
 
-            await Like.deleteMany({_id:{$in:post.comments}});
+            //await Like.deleteMany({_id:{$in:post.comments}});
             await Comment.deleteMany({post:req.params.id})
-            await Like.deleteMany({
-                likeable:req.params.id,
-                onModel: 'Post'
-            });
+            // await Like.deleteMany({
+            //     likeable:req.params.id,
+            //     onModel: 'Post'
+            // });
             post.remove();
 
             if(req.xhr){
                 return res.status(200).json({
                     data:{
-                        post_id:req.params.id,
+                        post:post,
                     },
                     message:"Post deleted"
                 });

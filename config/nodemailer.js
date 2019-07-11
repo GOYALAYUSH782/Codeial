@@ -7,7 +7,7 @@ let transporter = nodemailer.createTransport({
     port: 587,
     secure: false, // true for 465, false for other ports
     auth: {
-      user: '', // generated ethereal user
+      user: 'goyalayush782@gmail.com', // generated ethereal user
       pass: '' // generated ethereal password
     }
   });
@@ -15,8 +15,8 @@ let transporter = nodemailer.createTransport({
   let renderTemplate = (data,relativePath)=>{
       let mailHTML;
       ejs.renderFile(
-          path.join(__dirname,"../views/mailers",relativePath),
           data,
+          path.join(__dirname,"../views/mailers",relativePath),
           function(err,template){
               if(err){console.log('error in rendering template'); return}
 

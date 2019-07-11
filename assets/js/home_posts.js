@@ -84,7 +84,7 @@
                         timeout: 5000, 
                         closeWith:['click', 'button'], 
                         progressBar: true}).show();
-                    $(`#post-${data.data.post_id}`).remove();
+                    $(`#post-${data.data.post._id}`).remove();
                 },
                 error: function(error){
                     console.log(error.resposeText);
