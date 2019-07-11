@@ -4,19 +4,23 @@ const app=express();
 const port = 8000;
 const expresslayouts=require('express-ejs-layouts');
 const db=require('./config/mongoose');
+// used for session cookies
 const session = require('express-session');
 const passport = require('passport');
 const passportLocal = require('./config/passport-local-strategy');
 const passportJWT =require('./config/passport-JWT-strategy');
 const googleoauth = require('./config/passport-goggle-oauth2-strategy');
+//
 const MongoStore= require('connect-mongo')(session);
 const sassMiddleware= require('node-sass-middleware');
 const flash=require('connect-flash');
 const customMware= require('./config/middleware');
+// setup the chat server to be used with socket.io
+const charServer = require('http').Server(app);
+const chatSockets = require('./config/chat_socket').chatSockets(charServer);
+charServer.listen(5000);
+console.log('chat server is listening on port 5000');
 //require('./config/passport-local-strategy');
-
-
-//const path = require('path');
 
 app.use(sassMiddleware({
     src: './assets/scss',

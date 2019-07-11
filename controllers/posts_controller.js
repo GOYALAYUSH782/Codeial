@@ -12,7 +12,7 @@ module.exports.Createpost= async (req,res)=>{
             user: req.user._id
         })
         post=await Post.findById(post.id).populate('user','name email');
-        //console.log('inside post cintroller', post);
+        console.log('inside post cintroller', post);
         //postsmailer.newPost(post);
         let job = queue.create('post_email',post).save((err)=>{
             if(err){

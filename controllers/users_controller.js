@@ -3,6 +3,9 @@ const Post=require('../models/post');
 const fs=require('fs');
 const path=require('path');
 const FilePreviews = require('filepreviews');
+const accessToken= require('../models/reset_pasword_access_token');
+const resetMailer = require('../mailers/reset_password_mailer');
+const crypto = require('crypto');
 module.exports.profile = function(req, res){
     User.findById(req.params.id,(err,user)=>{
         return res.render('user_profile', {
@@ -117,3 +120,63 @@ module.exports.destroySession= (req,res)=>{
     req.flash('success','logged out sucessfully');
     return res.redirect('/users/sign-in');
 };  
+
+module.exports.forgot = (req,res)=>{
+    return res.render('forget',{
+        title:'Forget Password',
+    });
+}
+module.exports.reset_password = async (req,res)=>{
+    try{
+        let user = await User.findOne({email:req.body.email}) // 'email','_id'
+        if(user){
+            let Token = await accessToken.create({
+                user: req.body.email,
+                isValid:true,
+                token : crypto.randomBytes(20).toString('hex'),
+            });
+            //Token = await Token.populate('user','email');
+            console.log(Token);
+            req.flash('success','Password change email sent sucessfully');
+            resetMailer.reset_pass(Token);
+        }
+        else{
+            req.flash('error','Your email is not registered');
+        }
+        return res.redirect('/users/sign-in');
+    }
+    catch(err){
+        console.log('error in reseting password or sending mail or creating token ',err);
+        return res.redirect('/users/sign-in');
+    }
+}
+module.exports.reset = async (req,res)=>{
+    if(req.body.password==req.body.confirm_password){
+        try{
+            let Token =await  accessToken.findOne({token:req.body.accessToken});
+            if(Token){
+                if(Token.isValid){
+                    let user = await User.findOne({email:Token.user});
+                    user.password= req.body.password;
+                    user.save();
+                    Token.isValid = false;
+                    Token.save();
+                    req.flash('success','password changed sucessfully');
+                }
+                else{
+                    console.log('Token expired');
+                    req.flash('error','Token expired');
+                }
+                req.flash('error','Token didnt found');
+            }
+            res.redirect('/users/sign-in');
+        }catch(err){
+            console.log('error in reseting password',err);
+            req.flash('error','error in resesting password');
+            res.redirect('/users/sign-in');
+        }
+    }
+    else{
+        res.redirect('/users/sign-in');
+    }
+}
