@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/codeial_development', {useNewUrlParser: true });
+var env= require('./environment');
+mongoose.connect(`mongodb://localhost/${env.db}`, {useNewUrlParser: true });
 mongoose.set('useCreateIndex', true);
 var db = mongoose.connection;
 

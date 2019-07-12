@@ -1,7 +1,7 @@
 const modemailer = require('../config/nodemailer');
 // new method to export a method
 exports.newPost = (post)=>{
-    let htmlString = modemailer.renderTemplate({post:post},'/posts/new_post');
+    let htmlString = modemailer.renderTemplate({post:post},'/posts/new_post.ejs');
 
     modemailer.transporter.sendMail({
         from:"goyalayush782@gmail.com",

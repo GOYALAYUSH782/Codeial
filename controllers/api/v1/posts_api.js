@@ -18,12 +18,12 @@ module.exports.index=async (req,res)=>{
 }
 
 module.exports.destroy= async (req,res)=>{
-    
+    console.log(req.user.id);
     //post.user is just a id unitl we populate it and .id converts the objectId into string ,  while comparing objectId's we need to comapre the strings..
     try{
-        if(post.user==req.user.id){
-            let post = await Post.findById(req.params.id);
-        
+        console.log(req.user.id);
+        let post = await Post.findById(req.params.id);
+        if(post&&post.user==req.user.id){
             post.remove();
             await Comment.deleteMany({post:req.params.id})
             return res.json(200,{
