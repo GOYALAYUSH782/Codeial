@@ -25,10 +25,10 @@ console.log('chat server is listening on port 5000');
 //require('./config/passport-local-strategy');
 
 app.use(sassMiddleware({
-    src:  path.join(__dirname,env.asset_path,'scss'),
-    dest: path.join(__dirname,env.asset_path,'css'),
+    src: path.join(__dirname, env.asset_path, 'scss'),
+    dest: path.join(__dirname, env.asset_path, 'css'),
     debug: true,
-    outputStyle: "expanded",
+    outputStyle: 'extended',
     prefix: '/css'
 }));
 
@@ -36,6 +36,7 @@ app.use(express.urlencoded({extended: true}));
 
 app.use(cookieParser());
 
+//console.log('*******', env.asset_path);
 app.use(express.static(env.asset_path)); // 
 
 //  make the uploads path available to browser

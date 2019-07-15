@@ -30,7 +30,7 @@ module.exports.create=async (req,res)=>{
                     console.log('Error in sendig to the queue',err);
                     return;
                 }
-                console.log('job enqueued',job.id);
+                //console.log('job enqueued',job.id);
             })
 
             if(req.xhr){

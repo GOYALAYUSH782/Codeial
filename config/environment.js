@@ -1,16 +1,16 @@
 const development = {
-    name:'development',
-    asset_path: '/assets',
+    name: 'development',
+    asset_path: './assets',
     session_cookie_key: 'blahsomething',
-    db:'codeial_development',
-    smtp:{
-        service:'gmail',
-        host: "smtp.gmail.com",
+    db: 'codeial_development',
+    smtp: {
+        service: 'gmail',
+        host: 'smtp.gmail.com',
         port: 587,
-        secure: false, // true for 465, false for other ports
+        secure: false,
         auth: {
-            user: 'goyalayush782@gmail.com', // generated ethereal user
-            pass: '' // generated ethereal password
+            user: 'goyalayush782@gmail.com',
+            pass: '9569492211'
         }
     },
     goggle_client_id:"172591078325-3piv8fh1ioddser1fh2v5ff6iuek3oet.apps.googleusercontent.com",
