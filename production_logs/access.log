@@ -1,0 +1,6 @@
+[0mGET / [32m200 [0m1483.623 ms - 12350[0m
+[0mGET /users/sign-in [36m304 [0m50.011 ms - -[0m
+[0mGET /users/auth/google [36m302 [0m6.130 ms - 0[0m
+[0mGET /users/auth/google/callback?code=4%2FhwGxuHZk5am1PYG5R8fHu6iMwu5Z1maL9WZvc1zHA8kzeLvwmJhC2dEIHCpyhv_nzYrGF6kiKnxWh2EWyXhS034&scope=email+profile+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email+openid&authuser=0&session_state=1758d49dc28d6cf752da07eea5f34a5575b211d5..a5dd&prompt=consent [36m302 [0m732.131 ms - 46[0m
+[0mGET / [36m304 [0m1059.297 ms - -[0m
+[0mGET / [32m200 [0m1264.228 ms - 20182[0m
